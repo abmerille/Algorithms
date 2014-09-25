@@ -76,11 +76,11 @@ public class Square
         int adjRow = adj.getRow();
         int adjCol = adj.getCol();
         
-        if(hasNorth && (adjRow == (row-1)) && (adjCol == col))
+        if(hasNorth && (adjRow == (row - 1)) && (adjCol == col))
         {
             return true;
         }
-        if(hasSouth && (adjRow == (row+1)) && (adjCol == col))
+        if(hasSouth && (adjRow == (row + 1)) && (adjCol == col))
         {
             return true;
         }
