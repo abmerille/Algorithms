@@ -5,18 +5,15 @@
  */
 package assign3;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * use adjaceny matrix
- * start with no edges (only edges out of s and in to t)
- *for k=1 .. N
- * {
- *  add edge to residualgraph where one side k and other <=k
- *  find flow, increase flow
- *  if(flow ==N done)
- * }
+ * 
  * @author AdamM
  */
 public class Assign3Main{
@@ -26,25 +23,38 @@ public class Assign3Main{
     public static void main(String[] args)
     {
         files = getArgs(args);
-        
-        for(int i =0; i < files.size(); i++)
+ 
+        if(files != null)
         {
-            
+            try{
+
+                for(String fileName : files)
+                {
+                    MatchingGraph graph = new MatchingGraph(fileName);
+                }
+            }
+            catch(Exception e)
+            {
+                System.err.println("Error: Exception found: " + e);
+            }
         }
-        
     }
     
     public static LinkedList<String> getArgs(String[] args)
     {
         LinkedList<String> argList = new LinkedList<>();
-        String arg = args[0];
-        if(arg.contains(".txt"))
+        
+        for(String arg : args)
         {
-            argList.add(arg);
-        }
-        else
-        {
-            System.err.println("Error: input files should end in .txt");
+            if(arg.contains(".txt"))
+            {
+                argList.add(arg);
+            }
+            else
+            {
+                System.err.println("Error: input files should end in .txt");
+                return null;
+            }
         }
         return argList;
     }

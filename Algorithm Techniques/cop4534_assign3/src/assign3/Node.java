@@ -13,7 +13,7 @@ import java.util.List;
  * @author Adam
  */
 public class Node {
-    String name;
+    public String name;
     private List<Node> incomings;
     private List<Node> outgoings;
 
