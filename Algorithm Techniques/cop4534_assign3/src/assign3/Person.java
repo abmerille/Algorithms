@@ -9,6 +9,12 @@ package assign3;
  *
  * @author AdamM
  */
-public class Person {
+public class Person extends Node
+{
+
+    public Person(String nm, int n) {
+        super(nm, n);
+    }
+    
     
 }
