@@ -30,7 +30,7 @@ public class MatchingGraph {
     int maxFlow;
     int n;
     int currFlow = 0;
-    Map<String, Node> graph;
+    Map<String, Person> graph;
     //Node[] graph;
     
     public MatchingGraph(String fileName) throws FileNotFoundException, IOException
@@ -43,23 +43,31 @@ public class MatchingGraph {
         n = people.length;
         maxFlow = 2 * n;
         graph = new HashMap<>(maxFlow + 2);
-        graph.put("start", new Node("start", maxFlow));      //start
-        graph.put("sink", new Node("sink", maxFlow));        //sink
+        graph.put("start", new Person("start", maxFlow));      //start
+        graph.put("sink", new Person("sink", maxFlow));        //sink
+        
+        graph.put(line[0], new Person(line[0], n));
+        for(int j = 0; j < n; j++)
+        {
+            graph.put(people[j], new Person(people[j], n));
+            graph.get(line[0]).addRank(people[j], (j+1));
+        }
         
         //initialize men
-        for(int i = 0; i < n; i++)
+        while(!(line = reader.readLine().split(":"))[0].equals(""))
         {
-            line = reader.readLine().split(":");
+            //line = reader.readLine().split(":");
             people = line[1].split(",");
-            graph.put(line[0], new Node(line[0], n));
+            graph.put(line[0], new Person(line[0], n));
             for(int j = 0; j < n; j++)
             {
-                graph.put(people[j], new Node(people[j], n));
+                graph.put(people[j], new Person(people[j], n));
+                graph.get(line[0]).addRank(people[j], (j+1));
             }
             
         }
         
-        reader.readLine();          //eat blank line
+        //reader.readLine();          //eat blank line
         
         //initialize women
         /*for(int i = 0; i < n; i++)
@@ -74,6 +82,11 @@ public class MatchingGraph {
         }*/
         
         System.out.println(graph.toString());
+        for(Map.Entry<String, Person> person : graph.entrySet())
+        {
+            Person p = person.getValue();
+            System.out.println(p.getAllRanks());
+        }
     }
     
 }

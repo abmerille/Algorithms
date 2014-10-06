@@ -26,8 +26,13 @@ public class Person extends Node
         ranks.put(name, r);
     }
     
-    public int getrank(String name)
+    public int getRank(String name)
     {
         return ranks.get(name);
+    }
+    
+    public String getAllRanks()
+    {
+        return ranks.toString();
     }
 }
