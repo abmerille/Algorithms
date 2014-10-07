@@ -31,6 +31,7 @@ public class Assign3Main{
                 for(String fileName : files)
                 {
                     MatchingGraph graph = new MatchingGraph(fileName);
+                    graph.computMatches();
                 }
             }
             catch(Exception e)
