@@ -121,18 +121,57 @@ public class MatchingGraph {
                 }
             }
         }
+        System.out.println("Everybody matched with top " + k + " preferences:");
         for(Map.Entry<String, Person> entry : graph.entrySet())
         {
             if(!(entry.getKey().equals("sink") || entry.getKey().equals("start")))
             {
-            System.out.println(entry.getKey() + ": " + entry.getValue().getMatch() + entry.getValue().getRank(entry.getValue().getMatch()));
+            System.out.println(entry.getKey() + ": " + 
+                    "matched to "+ entry.getValue().getMatch() + 
+                    " (rank "+entry.getValue().getRank(entry.getValue().getMatch()) +")");
             }
         }
     }
     
-    private void augmentGraph(Person female)
+    private boolean augmentGraph(Person female)
     {
         //look for path from femal to male, etc to sink
+        for(Map.Entry<String, Integer> entry : female.getAllEdges().entrySet())
+        {
+            String maleName = entry.getKey();
+            if(!(maleName.equals("sink")) && female.getEdge(maleName) == 1)
+            {
+                Person nextMale = graph.get(maleName);
+                for(Map.Entry<String, Integer> fEntry : nextMale.getAllEdges().entrySet())
+                {
+                    String femaleName = fEntry.getKey();
+                    int fEdge = fEntry.getValue();
+                    if(fEdge == 1 && (graph.get(femaleName).getEdge("sink") == 1))
+                    {
+                        //reverse everything
+                        graph.get(femaleName).reverseEdge("sink");
+                        graph.get(femaleName).addEdge(maleName);
+                        nextMale.reverseEdge(femaleName);
+                        nextMale.reverseEdge(female.name);
+                        return true;
+                        
+                    }
+                    else if(fEdge == 1 && (graph.get(femaleName).getEdge("sink") == -1))
+                    {
+                        //recursion? call augment on this female
+                        if(augmentGraph(graph.get(femaleName)))
+                        {
+                            graph.get(femaleName).reverseEdge("sink");
+                            graph.get(femaleName).addEdge(maleName);
+                            nextMale.reverseEdge(femaleName);
+                            nextMale.reverseEdge(female.name);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
         //if found? return true? or pass in male that lead here to reverse path
     }
     
@@ -158,10 +197,15 @@ public class MatchingGraph {
                         start.reverseEdge(maleName);
                         currFlow++;
                     }
-                    else if(fEdge == -1)
+                    else if(fEdge == 1 && (graph.get(femaleName).getEdge("sink") == -1))
                     {
-                        //augmentgraph(female)
-                        //reversepath if found to sink
+                        if(augmentGraph(graph.get(femaleName)))
+                        {
+                            graph.get(femaleName).addEdge(maleName);
+                            male.reverseEdge(femaleName);
+                            start.reverseEdge(maleName);
+                            currFlow++;
+                        }
                     }
                 }
             }

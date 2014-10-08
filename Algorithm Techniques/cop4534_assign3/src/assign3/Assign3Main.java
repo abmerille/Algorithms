@@ -30,8 +30,11 @@ public class Assign3Main{
 
                 for(String fileName : files)
                 {
+                    long startTime = System.currentTimeMillis();
                     MatchingGraph graph = new MatchingGraph(fileName);
                     graph.computMatches();
+                    long endTime = System.currentTimeMillis();
+                    System.out.println("Elapsed tim: " +(endTime -startTime)+ "ms.\n");
                 }
             }
             catch(Exception e)
