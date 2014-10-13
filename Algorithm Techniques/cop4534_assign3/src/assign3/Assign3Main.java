@@ -9,7 +9,7 @@ import java.util.List;
  * @author AdamM
  */
 public class Assign3Main{
-    //adjacency list of persons where each person can be passed a name that is hashed (bucketsize = N) to rank
+    
     public static List<String> files;
     
     public static void main(String[] args)
