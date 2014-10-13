@@ -2,7 +2,7 @@ run:
 Everybody matched with top 1 preferences in friends0.txt:
 Juliet: matched to Romeo (rank 1)
 Romeo: matched to Juliet (rank 1)
-Elapsed time: 3ms.
+Elapsed time: 4ms.
 
 Everybody matched with top 2 preferences in friends1.txt:
 Monica: matched to Chandler (rank 1)
@@ -70,7 +70,7 @@ m0: matched to w0 (rank 1)
 w9: matched to m9 (rank 2)
 w8: matched to m3 (rank 9)
 w7: matched to m8 (rank 4)
-Elapsed time: 6ms.
+Elapsed time: 5ms.
 
 Everybody matched with top 38 preferences in friends5.txt:
 w90: matched to m19 (rank 13)
@@ -273,7 +273,7 @@ m21: matched to w55 (rank 8)
 m22: matched to w23 (rank 18)
 m23: matched to w67 (rank 6)
 m24: matched to w8 (rank 2)
-Elapsed time: 128ms.
+Elapsed time: 101ms.
 
 Everybody matched with top 129 preferences in friends6.txt:
 m171: matched to w223 (rank 1)
@@ -776,7 +776,7 @@ w27: matched to m22 (rank 14)
 w22: matched to m40 (rank 5)
 w21: matched to m31 (rank 1)
 w20: matched to m126 (rank 39)
-Elapsed time: 315ms.
+Elapsed time: 335ms.
 
 Everybody matched with top 165 preferences in friends7.txt:
 m553: matched to w354 (rank 21)
@@ -1979,7 +1979,7 @@ m407: matched to w265 (rank 9)
 m406: matched to w521 (rank 65)
 m405: matched to w558 (rank 2)
 m409: matched to w383 (rank 65)
-Elapsed time: 2422ms.
+Elapsed time: 2488ms.
 
 Everybody matched with top 286 preferences in friends8.txt:
 m779: matched to w219 (rank 33)
@@ -3982,9 +3982,9 @@ m637: matched to w305 (rank 78)
 m636: matched to w460 (rank 38)
 m639: matched to w294 (rank 4)
 m638: matched to w984 (rank 11)
-Elapsed time: 4167ms.
+Elapsed time: 3949ms.
 
-Total Elapsed time: 7sec.
+Total Elapsed time: 6sec.
 Computed in O(N^3) time for extra credit.
 
 BUILD SUCCESSFUL (total time: 7 seconds)
