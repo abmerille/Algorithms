@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package assign3;
 
 import java.util.HashMap;
@@ -12,18 +8,21 @@ import java.util.Map;
  *
  * @author AdamM
  */
-public class Person extends Node
+public class Person
 {
+    String name;
     private Map<String, Integer> ranks;
     private Map<Integer, String> nameByRank;
+    
     //edges: -1 reverse, 0 none, 1 forward
     private Map<String, Integer> edges;    
-    String match = "";
+    boolean hasFlow = false;
     
-    public Person(String nm, int n) {
-        super(nm, n);
+    public Person(String nm, int n) 
+    {
+        name = nm;
         this.ranks = new HashMap<>(n);
-        this.edges = new HashMap<>(n);
+        this.edges = new HashMap<>(n + 2);
         this.nameByRank = new HashMap<>(n);
     }
     
@@ -76,15 +75,5 @@ public class Person extends Node
     public Map<String, Integer> getAllEdges()
     {
         return edges;
-    }
-    
-    public String getMatch()
-    {
-        return match;
-    }
-    
-    public void setMatch(String person)
-    {
-        match = person;
     }
 }

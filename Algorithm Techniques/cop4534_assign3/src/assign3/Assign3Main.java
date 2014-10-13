@@ -1,19 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package assign3;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 
+ * Bipartite Matching
  * @author AdamM
  */
 public class Assign3Main{
@@ -27,15 +19,18 @@ public class Assign3Main{
         if(files != null)
         {
             try{
-
+                long firstStart = System.currentTimeMillis();
                 for(String fileName : files)
                 {
                     long startTime = System.currentTimeMillis();
                     MatchingGraph graph = new MatchingGraph(fileName);
                     graph.computMatches();
                     long endTime = System.currentTimeMillis();
-                    System.out.println("Elapsed tim: " +(endTime -startTime)+ "ms.\n");
+                    System.out.println("Elapsed time: " +(endTime -startTime)+ "ms.\n");
                 }
+                long lastEnd = System.currentTimeMillis();
+                System.out.println("Total Elapsed time: " +(lastEnd -firstStart)/1000 + "sec.");
+                System.out.println("Computed in O(N^3) time for extra credit.\n");
             }
             catch(Exception e)
             {
