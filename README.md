@@ -1,8 +1,8 @@
 Algorithm Techniques
 ========
 
-Folder containing assignments worked on during fall 2014 for COP4534 
+Folder containing assignments worked on during fall 2014 for course in algorithm implementations
 
-assign2: Dijkstra variation
+Dijkstra variation
 
-assign3: Bipartite Matching
+Bipartite Matching
