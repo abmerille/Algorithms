@@ -22,6 +22,7 @@ public class MatchingGraph {
     Map<String, Person> graph;
     Map<String, String> matches;
     String graphfile = "";
+    Map<String, Boolean> visited;
     
     public MatchingGraph(String fileName) throws FileNotFoundException, IOException
     {
@@ -35,6 +36,7 @@ public class MatchingGraph {
         maxFlow = n;
         graph = new HashMap<>((n * 2) + 2);
         matches = new HashMap<>(n * 2);
+        visited = new HashMap<>(n);
         graph.put("start", new Person("start", (n * 2)));      
         graph.put("sink", new Person("sink", (n * 2)));        
         
@@ -98,7 +100,7 @@ public class MatchingGraph {
                             person.addEdge(otherPerson.name);
                             otherPerson.addEdge(name);
                             otherPerson.reverseEdge(name);
-                            if((!person.hasFlow) && (graph.get(otherPerson.name).getEdge("sink") == 1))
+                            if((!person.hasFlow) && (!otherPerson.hasFlow)&&(graph.get(otherPerson.name).getEdge("sink") == 1))
                             {
                                 updateWithSink(person, otherPerson);
                                 currFlow++;
@@ -106,7 +108,8 @@ public class MatchingGraph {
                             else if((!person.hasFlow) && augmentGraph(otherPerson))
                             {       
                                updateWithAugment(person, otherPerson);
-                                currFlow++;
+                               currFlow++;
+                               visited.clear();
                             }
                         }
                         //if woman 
@@ -115,7 +118,7 @@ public class MatchingGraph {
                             otherPerson.addEdge(name);
                             person.addEdge(otherPerson.name);
                             person.reverseEdge(otherPerson.name);
-                            if((!otherPerson.hasFlow) && (graph.get(person.name).getEdge("sink") == 1))
+                            if((!otherPerson.hasFlow) && (!person.hasFlow) &&(graph.get(person.name).getEdge("sink") == 1))
                             {
                                 updateWithSink(otherPerson, person);
                                 currFlow++;
@@ -125,6 +128,7 @@ public class MatchingGraph {
                             {
                                 updateWithAugment(otherPerson, person);
                                 currFlow++;
+                                visited.clear();
                             }
                         }
                         
@@ -151,31 +155,54 @@ public class MatchingGraph {
     private boolean augmentGraph(Person female)
     {
         //look for path from female to male to nextFemale to sink
-        for(Map.Entry<String, Integer> entry : female.getAllEdges().entrySet())
+        if(!(visited.containsKey(female.name)))                                                       
         {
-            String maleName = entry.getKey();
-            Person nextMale = graph.get(maleName);
-            if(!(maleName.equals("sink")) && (nextMale.getEdge(female.name) == -1))
+            visited.put(female.name, true);
+            for(Map.Entry<String, Integer> entry : female.getAllEdges().entrySet())
             {
-                for(Map.Entry<String, Integer> fEntry : nextMale.getAllEdges().entrySet())
+                String maleName = entry.getKey();
+                Person nextMale = graph.get(maleName);
+                if(!(maleName.equals("sink")) && (nextMale.getEdge(female.name) == -1))
                 {
-                    String femaleName = fEntry.getKey();
-                    int fEdge = fEntry.getValue();
-                    Person nextFemale = graph.get(femaleName);
-                    if(fEdge == 1 && (nextFemale.getEdge("sink") == 1) 
-                            && (nextFemale.getRank(maleName) <= k))
+                    for(Map.Entry<String, Integer> fEntry : nextMale.getAllEdges().entrySet())
                     {
-                        //reverse everything
-                        graph.get(femaleName).reverseEdge("sink");
-                        graph.get(femaleName).addEdge(maleName);
-                        nextMale.reverseEdge(femaleName);
-                        nextMale.reverseEdge(female.name);
-                        
-                        //Update matches
-                        matches.put(maleName, femaleName);
-                        matches.put(femaleName, maleName);
+                        String femaleName = fEntry.getKey();
+                        int fEdge = fEntry.getValue();
+                        Person nextFemale = graph.get(femaleName);
+                        if(fEdge == 1 && (nextFemale.getEdge("sink") == 1) 
+                                && (nextFemale.getRank(maleName) <= k))
+                        {
+                            //reverse everything
+                            graph.get(femaleName).reverseEdge("sink");
+                            graph.get(femaleName).addEdge(maleName);
+                            nextMale.reverseEdge(femaleName);
+                            nextMale.reverseEdge(female.name);
+                            nextMale.hasFlow = true;
+                            nextFemale.hasFlow = true;
+                            female.hasFlow = true;
+                            //Update matches
+                            matches.put(maleName, femaleName);
+                            matches.put(femaleName, maleName);
 
-                        return true;                      
+                            return true;                      
+                        }
+                        if(fEdge == 1 && (nextFemale.getEdge("sink") == -1))
+                        {
+                            if(augmentGraph(nextFemale))
+                            {
+                                graph.get(femaleName).addEdge(maleName);
+                                nextMale.reverseEdge(femaleName);
+                                nextMale.reverseEdge(female.name);
+                                nextMale.hasFlow = true;  
+                                nextFemale.hasFlow = true;
+                                female.hasFlow = true;
+                                //Update matches
+                                matches.put(maleName, femaleName);
+                                matches.put(femaleName, maleName);
+
+                                return true;            
+                            }
+                        }
                     }
                 }
             }
@@ -189,6 +216,7 @@ public class MatchingGraph {
         female.addEdge(male.name);
         male.reverseEdge(female.name);
         male.hasFlow = true;
+        female.hasFlow =true;
         matches.put(male.name, female.name);
         matches.put(female.name, male.name);
     }
@@ -198,6 +226,7 @@ public class MatchingGraph {
         female.addEdge(male.name);
         male.reverseEdge(female.name);
         male.hasFlow = true;
+        female.hasFlow = true;
         matches.put(male.name, female.name);
         matches.put(female.name, male.name);
     }
